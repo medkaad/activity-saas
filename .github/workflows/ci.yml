@@ -1,0 +1,66 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [develop, main]
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: activity_db
+          POSTGRES_USER: activity_user
+          POSTGRES_PASSWORD: activity_pass
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U activity_user -d activity_db"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+
+    env:
+      DJANGO_SECRET_KEY: test
+      DJANGO_DEBUG: 1
+      DJANGO_ALLOWED_HOSTS: localhost,127.0.0.1
+      POSTGRES_DB: activity_db
+      POSTGRES_USER: activity_user
+      POSTGRES_PASSWORD: activity_pass
+      POSTGRES_HOST: 127.0.0.1
+      POSTGRES_PORT: 5432
+      REDIS_HOST: 127.0.0.1
+      REDIS_PORT: 6379
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install deps
+        working-directory: backend
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Lint (ruff)
+        working-directory: backend
+        run: ruff check .
+
+      - name: Format check (black)
+        working-directory: backend
+        run: black --check .
+
+      - name: Tests
+        working-directory: backend
+        run: |
+          python manage.py migrate
+          pytest -q
