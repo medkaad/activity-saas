@@ -21,7 +21,7 @@ def test_register():
 
 @pytest.mark.django_db
 def test_login():
-    user = User.objects.create_user(email="login@test.com", password="password123")
+    User.objects.create_user(email="login@test.com", password="password123")
 
     client = APIClient()
 
@@ -37,7 +37,7 @@ def test_login():
 
 @pytest.mark.django_db
 def test_me():
-    user = User.objects.create_user(email="me@test.com", password="password123")
+    User.objects.create_user(email="me@test.com", password="password123")
 
     client = APIClient()
 
