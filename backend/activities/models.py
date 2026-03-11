@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.db import models
-
 from organizations.models import Organization
+
 
 class Activity(models.Model):
     LEVEL_CHOICES = [
