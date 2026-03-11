@@ -5,7 +5,6 @@ from organizations.models import Organization
 from .models import Activity
 from .serializers import ActivitySerializer
 
-
 class ActivityListCreateView(generics.ListCreateAPIView):
     serializer_class = ActivitySerializer
     permission_classes = [permissions.IsAuthenticated]
