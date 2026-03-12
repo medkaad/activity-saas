@@ -1,6 +1,5 @@
 import requests
 
-
 OLLAMA_URL = "http://192.168.1.220:11434/api/generate"
 
 
