@@ -1,6 +1,7 @@
 from rest_framework import generics, permissions
 
 from organizations.models import Organization
+
 from .models import Activity
 from .serializers import ActivitySerializer
 
