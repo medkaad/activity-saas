@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "organizations",
     "activities",
     "ai",
+    "planning",
 ]
 
 MIDDLEWARE = [
