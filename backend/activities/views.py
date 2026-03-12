@@ -1,9 +1,9 @@
 from rest_framework import generics, permissions
 
-from organizations.models import Organization
-
 from .models import Activity
 from .serializers import ActivitySerializer
+
+from organizations.models import Organization
 
 
 class ActivityListCreateView(generics.ListCreateAPIView):
