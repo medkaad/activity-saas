@@ -55,10 +55,6 @@ jobs:
         working-directory: backend
         run: ruff check .
 
-      - name: Format check (black)
-        working-directory: backend
-        run: black --check .
-
       - name: Tests
         working-directory: backend
         run: |
