@@ -1,6 +1,22 @@
+import json
+
 import requests
 
 OLLAMA_URL = "http://192.168.1.220:11434/api/generate"
+
+
+def extract_json_from_text(text: str) -> dict:
+    cleaned = text.strip()
+
+    if cleaned.startswith("```json"):
+        cleaned = cleaned.removeprefix("```json").strip()
+    elif cleaned.startswith("```"):
+        cleaned = cleaned.removeprefix("```").strip()
+
+    if cleaned.endswith("```"):
+        cleaned = cleaned.removesuffix("```").strip()
+
+    return json.loads(cleaned)
 
 
 def generate_activity(level: str, domain: str, theme: str) -> dict:
@@ -33,4 +49,4 @@ description
     data = response.json()
     content = data["response"]
 
-    return {"raw": content}
+    return extract_json_from_text(content)
