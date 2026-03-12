@@ -1,9 +1,10 @@
 import pytest
+
+from django.contrib.auth import get_user_model
 from rest_framework.test import APIClient
 
 from activities.models import Activity
 from organizations.models import Organization
-from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
