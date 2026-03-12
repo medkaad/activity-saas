@@ -17,9 +17,7 @@ class ActivityListCreateView(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         organization_id = self.request.data.get("organization")
-
         organization = Organization.objects.get(id=organization_id)
-
         serializer.save(
             created_by=self.request.user,
             organization=organization,
