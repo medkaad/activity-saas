@@ -3,7 +3,7 @@ from rest_framework import generics, permissions
 from organizations.models import Organization
 
 from .models import WeeklyPlan
-from .serializers import WeeklyPlanSerializer, WeeklyPlanItemSerializer
+from .serializers import WeeklyPlanItemSerializer, WeeklyPlanSerializer
 
 
 class WeeklyPlanListCreateView(generics.ListCreateAPIView):
