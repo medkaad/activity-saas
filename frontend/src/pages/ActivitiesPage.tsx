@@ -9,6 +9,8 @@ type Activity = {
   level: string;
   domain: string;
   duration_minutes: number;
+  materials: string[] | string;
+  description: string;
 };
 
 type Organization = {
@@ -75,89 +77,109 @@ export default function ActivitiesPage() {
   };
 
   return (
-  <Layout title="Activities">
-    <h2 style={{ marginBottom: "16px" }}>Generate AI Activity</h2>
+    <Layout title="Activities">
+      <h2 style={{ marginBottom: "16px" }}>Generate AI Activity</h2>
 
-    <div style={{ display: "grid", gap: "12px", maxWidth: "400px" }}>
-      <select
-        value={organization}
-        onChange={(e) => setOrganization(e.target.value)}
-      >
-        {organizations.map((org) => (
-          <option key={org.id} value={org.id}>
-            {org.name}
-          </option>
-        ))}
-      </select>
+      <div style={{ display: "grid", gap: "12px", maxWidth: "400px" }}>
+        <select
+          value={organization}
+          onChange={(e) => setOrganization(e.target.value)}
+        >
+          {organizations.map((org) => (
+            <option key={org.id} value={org.id}>
+              {org.name}
+            </option>
+          ))}
+        </select>
 
-      <select value={level} onChange={(e) => setLevel(e.target.value)}>
-        <option value="PS">PS</option>
-        <option value="MS">MS</option>
-        <option value="GS">GS</option>
-      </select>
+        <select value={level} onChange={(e) => setLevel(e.target.value)}>
+          <option value="PS">PS</option>
+          <option value="MS">MS</option>
+          <option value="GS">GS</option>
+        </select>
 
-      <select value={domain} onChange={(e) => setDomain(e.target.value)}>
-        <option value="LANGAGE">LANGAGE</option>
-        <option value="MOTRICITE">MOTRICITE</option>
-        <option value="MATHS">MATHS</option>
-        <option value="ART">ART</option>
-        <option value="EXPLORER">EXPLORER</option>
-        <option value="VIVRE">VIVRE</option>
-      </select>
+        <select value={domain} onChange={(e) => setDomain(e.target.value)}>
+          <option value="LANGAGE">LANGAGE</option>
+          <option value="MOTRICITE">MOTRICITE</option>
+          <option value="MATHS">MATHS</option>
+          <option value="ART">ART</option>
+          <option value="EXPLORER">EXPLORER</option>
+          <option value="VIVRE">VIVRE</option>
+        </select>
 
-      <input
-        type="text"
-        placeholder="Theme"
-        value={theme}
-        onChange={(e) => setTheme(e.target.value)}
-      />
+        <input
+          type="text"
+          placeholder="Theme"
+          value={theme}
+          onChange={(e) => setTheme(e.target.value)}
+        />
 
-      <button
-        onClick={handleGenerate}
-        disabled={loading}
-        style={{
-          padding: "10px",
-          borderRadius: "8px",
-          border: "none",
-          background: "#2563eb",
-          color: "white",
-          fontWeight: 600,
-          cursor: "pointer",
-        }}
-      >
-        {loading ? "Generating..." : "Generate with AI"}
-      </button>
-    </div>
-
-    <hr style={{ margin: "32px 0" }} />
-
-    <h2>Existing Activities</h2>
-
-    {activities.length === 0 ? (
-      <p>No activities found.</p>
-    ) : (
-      <div style={{ display: "grid", gap: "12px" }}>
-        {activities.map((activity) => (
-          <div
-            key={activity.id}
-            style={{
-              border: "1px solid #e5e7eb",
-              borderRadius: "12px",
-              padding: "16px",
-              background: "#f9fafb",
-            }}
-          >
-            <div style={{ fontWeight: 700 }}>{activity.title}</div>
-            <div style={{ color: "#6b7280", marginTop: "6px" }}>
-              {activity.level} — {activity.domain}
-            </div>
-            <div style={{ marginTop: "4px" }}>
-              Duration: {activity.duration_minutes} min
-            </div>
-          </div>
-        ))}
+        <button
+          onClick={handleGenerate}
+          disabled={loading}
+          style={{
+            padding: "10px",
+            borderRadius: "8px",
+            border: "none",
+            background: "#2563eb",
+            color: "white",
+            fontWeight: 600,
+            cursor: "pointer",
+          }}
+        >
+          {loading ? "Generating..." : "Generate with AI"}
+        </button>
       </div>
-    )}
-  </Layout>
-);
+
+      <hr style={{ margin: "32px 0" }} />
+
+      <h2>Existing Activities</h2>
+
+      {activities.length === 0 ? (
+        <p>No activities found.</p>
+      ) : (
+        <div style={{ display: "grid", gap: "16px" }}>
+          {activities.map((activity) => (
+            <div
+              key={activity.id}
+              style={{
+                border: "1px solid #e5e7eb",
+                borderRadius: "12px",
+                padding: "18px",
+                background: "#f9fafb",
+              }}
+            >
+              <div style={{ fontWeight: 700, fontSize: "18px" }}>
+                {activity.title}
+              </div>
+
+              <div style={{ color: "#6b7280", marginTop: "6px" }}>
+                {activity.level} — {activity.domain}
+              </div>
+
+              <div style={{ marginTop: "6px" }}>
+                <b>Duration:</b> {activity.duration_minutes} min
+              </div>
+
+              <div style={{ marginTop: "10px" }}>
+                <b>Materials:</b>
+                <div style={{ marginTop: "4px", color: "#374151" }}>
+                  {Array.isArray(activity.materials)
+                    ? activity.materials.join(", ")
+                    : activity.materials}
+                </div>
+              </div>
+
+              <div style={{ marginTop: "10px" }}>
+                <b>Description:</b>
+                <div style={{ marginTop: "4px", color: "#374151" }}>
+                  {activity.description}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </Layout>
+  );
 }

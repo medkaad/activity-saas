@@ -14,3 +14,8 @@ export const generateActivity = async (payload: {
   const res = await api.post("/activities/generate", payload);
   return res.data;
 };
+
+export const getActivityById = async (id: number) => {
+  const res = await api.get(`/activities/${id}`);
+  return res.data;
+};
