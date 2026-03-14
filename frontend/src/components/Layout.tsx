@@ -16,6 +16,13 @@ const navLinkStyle = (active: boolean) => ({
 
 export default function Layout({ title, children }: LayoutProps) {
   const location = useLocation();
+  const isAuthenticated = Boolean(localStorage.getItem("access"));
+
+  const handleLogout = () => {
+    localStorage.removeItem("access");
+    localStorage.removeItem("refresh");
+    window.location.href = "/login";
+  };
 
   return (
     <div
@@ -44,27 +51,60 @@ export default function Layout({ title, children }: LayoutProps) {
         </div>
 
         <nav style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
-          <Link to="/" style={navLinkStyle(location.pathname === "/")}>
-            Dashboard
-          </Link>
-          <Link
-            to="/activities"
-            style={navLinkStyle(location.pathname === "/activities")}
-          >
-            Activities
-          </Link>
-          <Link
-            to="/planning"
-            style={navLinkStyle(location.pathname === "/planning")}
-          >
-            Planning
-          </Link>
-          <Link
-            to="/login"
-            style={navLinkStyle(location.pathname === "/login")}
-          >
-            Login
-          </Link>
+          {isAuthenticated ? (
+            <>
+              <Link to="/" style={navLinkStyle(location.pathname === "/")}>
+                Dashboard
+              </Link>
+              <Link
+                to="/activities"
+                style={navLinkStyle(location.pathname === "/activities")}
+              >
+                Activities
+              </Link>
+              <Link
+                to="/planning"
+                style={navLinkStyle(location.pathname === "/planning")}
+              >
+                Planning
+              </Link>
+              <Link
+                to="/account"
+                style={navLinkStyle(location.pathname === "/account")}
+              >
+                My Account
+              </Link>
+              <button
+                onClick={handleLogout}
+                style={{
+                  background: "#dc2626",
+                  color: "white",
+                  border: "none",
+                  borderRadius: "10px",
+                  padding: "10px 14px",
+                  fontWeight: 700,
+                  cursor: "pointer",
+                }}
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <Link
+                to="/login"
+                style={navLinkStyle(location.pathname === "/login")}
+              >
+                Login
+              </Link>
+              <Link
+                to="/register"
+                style={navLinkStyle(location.pathname === "/register")}
+              >
+                Register
+              </Link>
+            </>
+          )}
         </nav>
       </header>
 
