@@ -1,25 +1,9 @@
 from django.urls import path
 
-from .views import (
-    ActivityListCreateView,
-    ActivityRetrieveView,
-    ActivityPDFView
-)
+from .views import ActivityListCreateView, ActivityPDFView, ActivityRetrieveView
 
 urlpatterns = [
-    path(
-        "activities/",
-        ActivityListCreateView.as_view(),
-        name="activity-list-create",
-    ),
-    path(
-        "activities/<int:pk>/",
-        ActivityRetrieveView.as_view(),
-        name="activity-detail",
-    ),
-    path(
-        "activities/<int:pk>/pdf/",
-        ActivityPDFView.as_view(),
-        name="activity-pdf",
-    ),
+    path("activities", ActivityListCreateView.as_view(), name="activity-list-create"),
+    path("activities/<int:pk>", ActivityRetrieveView.as_view(), name="activity-detail"),
+    path("activities/<int:pk>/pdf", ActivityPDFView.as_view(), name="activity-pdf"),
 ]
