@@ -19,3 +19,11 @@ export const getActivityById = async (id: number) => {
   const res = await api.get(`/activities/${id}`);
   return res.data;
 };
+
+export const downloadActivityPdf = async (id: number) => {
+  const res = await api.get(`/activities/${id}/pdf`, {
+    responseType: "blob",
+  });
+
+  return res.data;
+};

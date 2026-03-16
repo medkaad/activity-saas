@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { generateActivity, getActivities } from "../api/activities";
 import { getOrganizations } from "../api/organizations";
@@ -140,43 +141,49 @@ export default function ActivitiesPage() {
       ) : (
         <div style={{ display: "grid", gap: "16px" }}>
           {activities.map((activity) => (
-            <div
+            <Link
+              to={`/activities/${activity.id}`}
               key={activity.id}
-              style={{
-                border: "1px solid #e5e7eb",
-                borderRadius: "12px",
-                padding: "18px",
-                background: "#f9fafb",
-              }}
+              style={{ textDecoration: "none", color: "inherit" }}
             >
-              <div style={{ fontWeight: 700, fontSize: "18px" }}>
-                {activity.title}
-              </div>
+              <div
+                style={{
+                  border: "1px solid #e5e7eb",
+                  borderRadius: "12px",
+                  padding: "18px",
+                  background: "#f9fafb",
+                  cursor: "pointer",
+                }}
+              >
+                <div style={{ fontWeight: 700, fontSize: "18px" }}>
+                  {activity.title}
+                </div>
 
-              <div style={{ color: "#6b7280", marginTop: "6px" }}>
-                {activity.level} — {activity.domain}
-              </div>
+                <div style={{ color: "#6b7280", marginTop: "6px" }}>
+                  {activity.level} — {activity.domain}
+                </div>
 
-              <div style={{ marginTop: "6px" }}>
-                <b>Duration:</b> {activity.duration_minutes} min
-              </div>
+                <div style={{ marginTop: "6px" }}>
+                  <b>Duration:</b> {activity.duration_minutes} min
+                </div>
 
-              <div style={{ marginTop: "10px" }}>
-                <b>Materials:</b>
-                <div style={{ marginTop: "4px", color: "#374151" }}>
-                  {Array.isArray(activity.materials)
-                    ? activity.materials.join(", ")
-                    : activity.materials}
+                <div style={{ marginTop: "10px" }}>
+                  <b>Materials:</b>
+                  <div style={{ marginTop: "4px", color: "#374151" }}>
+                    {Array.isArray(activity.materials)
+                      ? activity.materials.join(", ")
+                      : activity.materials}
+                  </div>
+                </div>
+
+                <div style={{ marginTop: "10px" }}>
+                  <b>Description:</b>
+                  <div style={{ marginTop: "4px", color: "#374151" }}>
+                    {activity.description}
+                  </div>
                 </div>
               </div>
-
-              <div style={{ marginTop: "10px" }}>
-                <b>Description:</b>
-                <div style={{ marginTop: "4px", color: "#374151" }}>
-                  {activity.description}
-                </div>
-              </div>
-            </div>
+            </Link>
           ))}
         </div>
       )}
